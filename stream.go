@@ -4,11 +4,14 @@
 
 package sse
 
+import "time"
+
 // Stream ...
 type Stream struct {
 	// Enables replaying of eventlog to newly added subscribers
 	AutoReplay  bool
 	Eventlog    EventLog
+	EventTTL    time.Duration
 	stats       chan chan int
 	subscribers []*Subscriber
 	register    chan *Subscriber
@@ -24,7 +27,7 @@ type StreamRegistration struct {
 }
 
 // newStream returns a new stream
-func newStream(bufsize int, replay bool) *Stream {
+func newStream(bufsize int, replay bool, ttl time.Duration) *Stream {
 	return &Stream{
 		AutoReplay:  replay,
 		subscribers: make([]*Subscriber, 0),
@@ -33,6 +36,7 @@ func newStream(bufsize int, replay bool) *Stream {
 		event:       make(chan *Event, bufsize),
 		quit:        make(chan bool),
 		Eventlog:    make(EventLog, 0),
+		EventTTL:    ttl,
 	}
 }
 

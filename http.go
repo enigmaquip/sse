@@ -70,7 +70,7 @@ func (s *Server) HTTPHandler(w http.ResponseWriter, r *http.Request) {
 			}
 
 			// if the event has expired, dont send it
-			if s.EventTTL != 0 && time.Now().After(ev.timestamp.Add(s.EventTTL)) {
+			if stream.EventTTL != 0 && time.Now().After(ev.timestamp.Add(stream.EventTTL)) {
 				continue
 			}
 

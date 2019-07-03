@@ -59,7 +59,7 @@ func (s *Server) CreateStream(id string) *Stream {
 		return s.Streams[id]
 	}
 
-	str := newStream(s.BufferSize, s.AutoReplay)
+	str := newStream(s.BufferSize, s.AutoReplay, s.EventTTL)
 	str.run()
 
 	s.Streams[id] = str
